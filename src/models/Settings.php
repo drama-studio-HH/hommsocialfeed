@@ -40,7 +40,7 @@ class Settings extends Model
     ];
 
     /**
-     * @var string '/api/feeds/[company-name]'. Supports environment variables (e.g. '$JUICER_API_PATH').
+     * @var string '/api/feeds/[company-name]'. Supports environment variables (e.g. '$JUICER_FEED').
      */
     public $apiPath;
 
