@@ -23,6 +23,13 @@ class Settings extends Model
     // =========================================================================
 
     /**
+     * @var string|null Complete feed URL (e.g. 'https://www.juicer.io/api/feeds/my-feed').
+     *                  When set, takes precedence over socialFeedBaseUrl + apiPath.
+     *                  Supports environment variables (e.g. '$JUICER_FEED').
+     */
+    public $feedUrl;
+
+    /**
      * @var string Social Feed base url. Supports environment variables (e.g. '$JUICER_BASE_URL').
      */
     public $socialFeedBaseUrl = 'https://www.juicer.io';
@@ -40,7 +47,7 @@ class Settings extends Model
     ];
 
     /**
-     * @var string '/api/feeds/[company-name]'. Supports environment variables (e.g. '$JUICER_FEED').
+     * @var string '/api/feeds/[company-name]'. Supports environment variables (e.g. '$JUICER_API_PATH').
      */
     public $apiPath;
 
@@ -58,7 +65,8 @@ class Settings extends Model
     public function rules(): array
     {
         return [
-            [['apiPath', 'numberOfFeeds'], 'required'],
+            ['numberOfFeeds', 'required'],
+            [['apiPath'], 'required', 'when' => fn($model) => !$model->feedUrl],
         ];
     }
 }
