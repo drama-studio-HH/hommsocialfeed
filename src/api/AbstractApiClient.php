@@ -22,12 +22,7 @@ abstract class AbstractApiClient extends \GuzzleHttp\Client
 {
     public function __construct(array $config = [])
     {
-        $settings = HOMMSocialFeed::$plugin->getSettings();
-
-        if (!App::parseEnv($settings->feedUrl)) {
-            $config['base_uri'] = App::parseEnv($settings->socialFeedBaseUrl);
-        }
-
+        $config['base_uri'] = App::parseEnv(HOMMSocialFeed::$plugin->getSettings()->socialFeedBaseUrl);
         parent::__construct($config);
     }
 
@@ -38,14 +33,7 @@ abstract class AbstractApiClient extends \GuzzleHttp\Client
 
     protected function getApiPath(): string
     {
-        $settings = HOMMSocialFeed::$plugin->getSettings();
-
-        $feedUrl = App::parseEnv($settings->feedUrl);
-        if ($feedUrl) {
-            return $feedUrl;
-        }
-
-        $apiPath = App::parseEnv($settings->apiPath);
+        $apiPath = App::parseEnv(HOMMSocialFeed::$plugin->getSettings()->apiPath);
 
         if (!$apiPath) {
             throw new \Exception('The API path is not provided. Please check your plugin settings.');
